@@ -1,4 +1,7 @@
 <?php
+    session_start();
+    require('../library.php');
+
     $form = [
         "name" => "",
         "email" => "",
@@ -7,16 +10,13 @@
     ];
     $error = [];
 
-    /* escape special chars */
-    function h($value){
-        return htmlspecialchars($value, ENT_QUOTES);
-    }
 
     /* form validation */
     if($_SERVER['REQUEST_METHOD'] === 'POST'){
         $form['name'] = filter_input(INPUT_POST, 'name', FILTER_SANITIZE_STRING);
         $form['email'] = filter_input(INPUT_POST, 'email', FILTER_SANITIZE_EMAIL);
         $form['password'] = filter_input(INPUT_POST, 'password', FILTER_SANITIZE_STRING);
+        $image = $_FILES['image'];
 
         if($form['name'] === ""){
             $error['name'] = "blank";
@@ -32,6 +32,29 @@
             $error['password'] = "length";
         }
 
+        /* check image */
+        if($image['name'] !== '' && $image['error'] === 0){
+            $type = mime_content_type($image['tmp_name']);
+            if($type !== 'image/png' && $type !== 'image/jpeg' && $type !== 'image/jpg'){
+                $error['image'] ='type';
+            }
+        }
+
+        if(empty($error)){
+            $_SESSION['form'] = $form;
+            if($image['name'] !== ''){
+                $filename = date('YmdHis'). '_'. $image['name'];
+                if(!move_uploaded_file($image['tmp_name'], '../member_picture/'. $filename)){
+                    die('ファイルのアップロードに失敗しました');
+                }
+                $_SESSION['form']['image'] = $filename;
+            }else{
+                $_SESSION['form']['image'] = '';
+            }
+
+            header("Location: check.php");
+            exit();
+        }
     }
 
 ?>
@@ -86,8 +109,10 @@
                 <dt>写真など</dt>
                 <dd>
                     <input type="file" name="image" size="35" value=""/>
-                    <p class="error">* 写真などは「.png」または「.jpg」の画像を指定してください</p>
-                    <p class="error">* 恐れ入りますが、画像を改めて指定してください</p>
+                    <?php if(isset($error['image']) && $error['image'] === "type"): ?>
+                        <p class="error">* 写真などは「.png」または「.jpg」の画像を指定してください</p>
+                        <p class="error">* 恐れ入りますが、画像を改めて指定してください</p>
+                    <?php endif; ?>
                 </dd>
             </dl>
             <div><input type="submit" value="入力内容を確認する"/></div>
