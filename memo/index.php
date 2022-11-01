@@ -37,11 +37,15 @@ $result = $stmt -> execute();
     <?php if(!$result): ?>
         <p>表示するメモはありません</p>
     <?php endif; ?>
-    <?php $stmt -> bind_result($id, $memo, $created) ?>
+    <?php $stmt -> bind_result($id, $memo, $created, $edit); ?>
     <?php while($stmt -> fetch()): ?>
         <div>
             <h2><a href="memo.php?id=<?php echo htmlspecialchars($id); ?>"><?php echo htmlspecialchars(mb_substr($memo, 0, 50)); ?></a>
-            <time><?php echo htmlspecialchars($created); ?></time>
+            <?php if($edit != NULL): ?>
+                <time><?php echo htmlspecialchars($edit); ?></time>
+            <?php else: ?>
+                <time><?php echo htmlspecialchars($created); ?></time>
+            <?php endif; ?>
         </div>
         <hr>
     <?php endwhile; ?>
