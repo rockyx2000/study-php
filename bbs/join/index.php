@@ -86,62 +86,89 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>会員登録</title>
+    <title>ユーザー登録</title>
 
-    <link rel="stylesheet" href="../style.css"/>
+    <!-- <link rel="stylesheet" href="style.css"/> -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.0/font/bootstrap-icons.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
 </head>
 
 <body>
-<div id="wrap">
-    <div id="head">
-        <h1>会員登録</h1>
+<div class="header" id="wrap" style="margin: 50px 0px 50px 0px;">
+    <div class="container" id="head">
+        <h1>ユーザー登録</h1>
     </div>
+</div>
 
-    <div id="content">
-        <p>次のフォームに必要事項をご記入ください。</p>
-        <form action="" method="post" enctype="multipart/form-data">
-            <dl>
-                <dt>ニックネーム<span class="required">必須</span></dt>
-                <dd>
-                    <input type="text" name="name" size="35" maxlength="255" value="<?php echo h($form['name']); ?>"/>
-                    <?php if(isset($error['name']) && $error['name'] === "blank"): ?>
-                        <p class="error">* ニックネームを入力してください</p>
-                    <?php endif; ?>
-                </dd>
-                <dt>メールアドレス<span class="required">必須</span></dt>
-                <dd>
-                    <input type="text" name="email" size="35" maxlength="255" value="<?php echo h($form['email']); ?>"/>
-                    <?php if(isset($error['email']) && $error['email'] === "blank"): ?>
-                        <p class="error">* メールアドレスを入力してください</p>
-                    <?php endif; ?>
-                    <?php if(isset($error['email']) && $error['email'] === "duplicate"): ?>
-                        <p class="error">* 指定されたメールアドレスはすでに登録されています</p>
-                    <?php endif; ?>
-                <dt>パスワード<span class="required">必須</span></dt>
-                <dd>
-                    <input type="password" name="password" size="10" maxlength="20" value="<?php echo h($form['password']); ?>"/>
-                    <?php if(isset($error['password']) && $error['password'] === "blank"): ?>
-                        <p class="error">* パスワードを入力してください</p>
-                    <?php endif; ?>
+    <div class="join-form" id="content">
+        <div class="container">
+            <p>次のフォームに必要事項をご記入ください。</p>
+            <form action="" method="post" enctype="multipart/form-data">
+                <div class="name" style="margin: 20px 0px 20px 0px;">
+                    <label for="name" class="form-label">ニックネーム *</label>
+                        <input type="text" id="name" name="name" size="35" maxlength="255" value="<?php echo h($form['name']); ?>" class="form-control"/>
+                            <?php if(isset($error['name']) && $error['name'] === "blank"): ?>
+                                <div class="alert alert-danger" role="alert" style="width: 400px; height: 38px; margin: 15px 0px 15px 20px; padding: 5px;">
+                                    <p class="error" style="margin: 0px;">・ニックネームを入力してください</p>
+                                </div>
+                            <?php endif; ?>
+                </div>
 
-                    <?php if(isset($error['password']) && $error['password'] === "length"): ?>
-                        <p class="error">* パスワードは4文字以上で入力してください</p>
-                    <?php endif; ?>
-                </dd>
-                <dt>写真など</dt>
-                <dd>
-                    <input type="file" name="image" size="35" value=""/>
-                    <?php if(isset($error['image']) && $error['image'] === "type"): ?>
-                        <p class="error">* 写真などは「.png」または「.jpg」の画像を指定してください</p>
-                    <?php endif; ?>
+                <div class="email" style="margin: 20px 0px 20px 0px;">
+                    <label for="email" class="form-label">メールアドレス *</label>
+                    <input type="text" id="email" name="email" size="35" maxlength="255" value="<?php echo h($form['email']); ?>" class="form-control"/>
+                        <?php if(isset($error['email']) && $error['email'] === "blank"): ?>
+                            <div class="alert alert-danger" role="alert" style="width: 400px; height: 38px; margin: 15px 0px 15px 20px; padding: 5px;">
+                                <p class="error" style="margin: 0px;">・メールアドレスを入力してください</p>
+                            </div>
+                        <?php endif; ?>
+                        <?php if(isset($error['email']) && $error['email'] === "duplicate"): ?>
+                            <div class="alert alert-danger" role="alert" style="width: 450px; height: 38px; margin: 15px 0px 15px 20px; padding: 5px;">
+                                <p class="error" style="margin: 0px;">・指定されたメールアドレスはすでに登録されています</p>
+                            </div>
+                        <?php endif; ?>
+                    </div>
 
-                    <?php if(isset($_GET['action']) && $_GET['action'] === 'rewrite' && isset($_SESSION['form'])): ?>
-                        <p class="error">* 再選択してください</p>
-                    <?php endif; ?>
-                </dd>
-            </dl>
-            <div><input type="submit" value="入力内容を確認する"/></div>
-        </form>
+                    <div class="password" style="margin: 20px 0px 20px 0px;">
+                        <label for="password" class="form-label">パスワード *</label>
+                        <input type="password" id="password" name="password" size="10" maxlength="20" value="<?php echo h($form['password']); ?>" class="form-control"/>
+                            <?php if(isset($error['password']) && $error['password'] === "blank"): ?>
+                                <div class="alert alert-danger" role="alert" style="width: 400px; height: 38px; margin: 15px 0px 15px 20px; padding: 5px;">
+                                    <p class="error" style="margin: 0px;">・パスワードを入力してください。</p>
+                                </div>
+                            <?php endif; ?>
+
+                            <?php if(isset($error['password']) && $error['password'] === "length"): ?>
+                                <div class="alert alert-danger" role="alert" style="width: 400px; height: 38px; margin: 15px 0px 15px 20px; padding: 5px;">
+                                    <p class="error" style="margin: 0px;">・パスワードは4文字以上で入力してください。</p>
+                                </div>
+                            <?php endif; ?>
+                    </div>
+
+                    <div class="image" style="margin: 20px 0px 20px 0px;">
+                        <label for="image" class="form-label">プロフィール画像</label>
+                        <input type="file" id="image" name="image" size="35" value="" class="form-control"/>
+                            <?php if(isset($error['image']) && $error['image'] === "type"): ?>
+                                <div class="alert alert-danger" role="alert" style="width: 500px; height: 38px; margin: 15px 0px 15px 20px; padding: 5px;">
+                                    <p class="error" style="margin: 0px;">・写真などは「.png」または「.jpg」の画像を指定してください</p>
+                                </div>
+                                <p class="error"></p>
+                            <?php endif; ?>
+
+                            <?php if(isset($_GET['action']) && $_GET['action'] === 'rewrite' && isset($_SESSION['form'])): ?>
+                                <div class="alert alert-danger" role="alert" style="width: 400px; height: 38px; margin: 15px 0px 15px 20px; padding: 5px;">
+                                    <p class="error" style="margin: 0px;">・再選択してください。</p>
+                                </div>
+                            <?php endif; ?>
+                    </div>
+
+
+                    <div class="button" style="margin-top: 30px;">
+                        <input type="submit" class="btn btn-primary" value="入力内容を確認する"/>
+                    </div>
+            </form>
+        </div>
     </div>
 </body>
 
