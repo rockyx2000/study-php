@@ -79,8 +79,10 @@
     </div>
         <div style="margin-right: 20px; text-align: right">
             <a href="logout.php" class="btn btn-danger">
-                <i class="bi bi-box-arrow-left" style=""></i> ログアウト
+                <i class="bi bi-box-arrow-left" style=""></i> 
+                ログアウト
             </a>
+            <?php echo h($name); ?>
         </div>
             <div class="album py-5">
                 <div class="container">
@@ -100,8 +102,8 @@
 
                         while($stmt_posts -> fetch()):
                     ?>
-                        <div class="col-md-4">
-                            <div class="card mb-4 shadow-sm" style="width: 19rem;">
+                        <div class="col-md-4" style="margin-bottom: 50px;">
+                            <div class="card mb-4 shadow-sm" style="width: 19rem; margin: auto;">
                                 <?php if($picture != NULL): ?>
                                     <img src="member_picture/<?php echo h($picture); ?>" class="card-img-top" style="height: 225px; width: 100%; display: block;" alt=""/>
                                 <?php else: ?>
@@ -126,7 +128,7 @@
                                                 </button>
                                                 <ul class="dropdown-menu" aria-labelledby="dropdownMenu2">
                                                     <li><a href="#" class="dropdown-item">編集</a>
-                                                    <li><a href="delete.php?id=<?php echo h($id); ?>" class="dropdown-item">削除</a>
+                                                    <li><a href="delete.php?id=<?php echo h($id); ?>" class="dropdown-item" onclick="return confirm('本当に削除しますか?')">削除</a>
                                                     </li>
                                                 </ul>
                                             </div>
@@ -140,5 +142,11 @@
                 </div>
             </div>
 </body>
+
+<script>
+    function confDel(){
+        window.confirm("本当に削除しますか？");
+    }
+</script>
 
 </html>
